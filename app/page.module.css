@@ -1,0 +1,255 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.metricsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+@media (max-width: 1100px) {
+  .metricsRow {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.metricCard {
+  background: #ffffff;
+  border: 1px solid #e5e5ea;
+  border-radius: 18px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.metricCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.06);
+}
+
+.metricHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.metricLabel {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #6e6e73;
+}
+
+.metricIcon {
+  color: #000000;
+}
+
+.metricValue {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: -0.02em;
+}
+
+.metricSub {
+  font-size: 0.74rem;
+  color: #aeaeb2;
+}
+
+.textSuccess {
+  color: #24a148;
+}
+
+.textDanger {
+  color: #ff3b30;
+}
+
+.mainGrid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .mainGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.leftCol, .rightCol {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.card {
+  background: #ffffff;
+  border: 1px solid #e5e5ea;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.cardTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  letter-spacing: -0.02em;
+}
+
+.cardSub {
+  font-size: 0.8rem;
+  color: #6e6e73;
+}
+
+.badgePill {
+  font-size: 0.75rem;
+  background: #f2f2f7;
+  color: #1c1c1e;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.scorePill {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #000000;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+}
+
+.chartWrapper {
+  margin-top: 10px;
+}
+
+.gradesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.gradeBox {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.gradeBox label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: #6e6e73;
+}
+
+.gradeBox input {
+  background: #f2f2f7;
+  border: 1px solid #e5e5ea;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  text-align: center;
+  outline: none;
+}
+
+.gradeBox input:focus {
+  border-color: #000000;
+  background: #ffffff;
+}
+
+.taskList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.taskItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9f9fb;
+  border: 1px solid #e5e5ea;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.taskIcon {
+  color: #24a148;
+}
+
+.taskInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.taskName {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #1c1c1e;
+}
+
+.taskMeta {
+  font-size: 0.74rem;
+  color: #6e6e73;
+}
+
+.taskCount {
+  font-size: 0.75rem;
+  background: #f2f2f7;
+  color: #6e6e73;
+  padding: 4px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.fileItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f9f9fb;
+  border: 1px solid #e5e5ea;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+.fileIcon {
+  color: #000000;
+}
+
+.fileDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.fileName {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #1c1c1e;
+}
+
+.fileMeta {
+  font-size: 0.74rem;
+  color: #6e6e73;
+}
