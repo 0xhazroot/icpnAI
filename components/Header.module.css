@@ -46,7 +46,7 @@
   gap: 16px;
 }
 
-.syncBadge {
+.syncBadgeConnected {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -55,17 +55,40 @@
   padding: 8px 14px;
   border-radius: 9999px;
   font-size: 0.8rem;
-  font-weight: 500;
+  font-weight: 600;
   color: #1c1c1e;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
 }
 
-.pulseDot {
+.syncBadgeDisconnected {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f2f2f7;
+  border: 1px solid #e5e5ea;
+  padding: 8px 14px;
+  border-radius: 9999px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: #8e8e93;
+}
+
+.pulseDotGreen {
   width: 7px;
   height: 7px;
   border-radius: 50%;
   background: #24a148;
   box-shadow: 0 0 8px rgba(36, 161, 72, 0.5);
+}
+
+.pulseDotGray {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #8e8e93;
+}
+
+.notifContainer {
+  position: relative;
 }
 
 .iconBtn {
@@ -90,12 +113,124 @@
 }
 
 .notifBadge {
-  width: 8px;
-  height: 8px;
+  width: 16px;
+  height: 16px;
   background: #ff3b30;
+  color: #ffffff;
+  font-size: 0.68rem;
+  font-weight: 700;
   border-radius: 50%;
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: -2px;
+  right: -2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: 2px solid #ffffff;
+}
+
+.notifDropdown {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  width: 340px;
+  background: #ffffff;
+  border: 1px solid #e5e5ea;
+  border-radius: 16px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.notifHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 16px;
+  border-bottom: 1px solid #e5e5ea;
+  background: #fafafa;
+}
+
+.notifHeader h3 {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #1c1c1e;
+}
+
+.closeBtn {
+  background: transparent;
+  border: none;
+  color: #8e8e93;
+  cursor: pointer;
+}
+
+.notifList {
+  display: flex;
+  flex-direction: column;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.emptyNotif {
+  padding: 24px;
+  text-align: center;
+  font-size: 0.84rem;
+  color: #8e8e93;
+}
+
+.notifItem {
+  display: flex;
+  gap: 12px;
+  padding: 14px;
+  border-bottom: 1px solid #f2f2f7;
+  position: relative;
+}
+
+.notifIcon {
+  margin-top: 2px;
+}
+
+.textSuccess {
+  color: #24a148;
+}
+
+.textInfo {
+  color: #000000;
+}
+
+.notifContent {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex-grow: 1;
+}
+
+.notifContent strong {
+  font-size: 0.82rem;
+  color: #1c1c1e;
+}
+
+.notifContent p {
+  font-size: 0.76rem;
+  color: #6e6e73;
+  line-height: 1.4;
+}
+
+.notifTime {
+  font-size: 0.7rem;
+  color: #aeaeb2;
+}
+
+.deleteNotifBtn {
+  background: transparent;
+  border: none;
+  color: #aeaeb2;
+  cursor: pointer;
+  align-self: flex-start;
+}
+
+.deleteNotifBtn:hover {
+  color: #ff3b30;
 }
