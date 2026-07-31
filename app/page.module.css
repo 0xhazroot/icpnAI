@@ -350,13 +350,31 @@
   flex-direction: column;
 }
 
-.fileName {
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: #1c1c1e;
+.emptyTaskList {
+  padding: 32px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: #8e8e93;
+  background: #f9f9fb;
+  border-radius: 14px;
+  border: 1px dashed #e5e5ea;
 }
 
-.fileMeta {
-  font-size: 0.74rem;
-  color: #6e6e73;
+.chromeIcon {
+  color: #aeaeb2;
 }
+
+.emptyTaskList p {
+  font-weight: 600;
+  color: #1c1c1e;
+  font-size: 0.86rem;
+}
+
+.emptyTaskList span {
+  font-size: 0.76rem;
+  line-height: 1.4;
+}
+

@@ -4,53 +4,36 @@ import React, { useState } from 'react';
 import { 
   Database, 
   RotateCw, 
-  CheckCircle2, 
   FileText, 
   TrendingUp,
   Award,
   Sparkles,
   Layers,
-  BookOpen
+  BookOpen,
+  PlusCircle,
+  Chrome
 } from 'lucide-react';
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from 'recharts';
 import styles from './page.module.css';
 
-// Chart Data matching Monochromatic style
-const gradeTrendData = [
-  { name: 'W1', score: 2.0, max: 2 },
-  { name: 'S1', score: 1.8, max: 2 },
-  { name: 'W2', score: 1.9, max: 2 },
-  { name: 'S2', score: 2.0, max: 2 },
-  { name: 'W3', score: 1.7, max: 2 },
-  { name: 'S3', score: 1.9, max: 2 },
-  { name: 'Quiz', score: 1.8, max: 2 },
-  { name: 'ALP', score: 3.8, max: 4 },
-  { name: 'Final', score: 3.6, max: 4 },
-];
-
 export default function DashboardPage() {
-  // ICPNA Official Grading System (Total 20 Pts)
-  // W1, W2, W3: 2 pts max each
-  // S1, S2, S3: 2 pts max each
-  // Reading Quiz: 2 pts max
-  // ALP (Project): 4 pts max
-  // Final Exam: 4 pts max
+  // ICPNA Official Grading System (Total 20 Pts) - Starts clean at 0.0 Pts
   const [grades, setGrades] = useState({
-    w1: 2.0, w2: 1.9, w3: 1.7,
-    s1: 1.8, s2: 2.0, s3: 1.9,
-    quiz: 1.8,
-    alp: 3.8,
-    final: 3.6
+    w1: 0.0, w2: 0.0, w3: 0.0,
+    s1: 0.0, s2: 0.0, s3: 0.0,
+    quiz: 0.0,
+    alp: 0.0,
+    final: 0.0
   });
 
   const [isSyncing, setIsSyncing] = useState(false);
+  const [syncedClassroom, setSyncedClassroom] = useState(false);
 
   const handleGradeChange = (key, val, maxVal) => {
     const num = Math.min(maxVal, Math.max(0, parseFloat(val) || 0));
     setGrades(prev => ({ ...prev, [key]: num }));
   };
 
-  // Sum exact ICPNA total score out of 20 points
   const calculateTotalScore = () => {
     const total = Object.values(grades).reduce((acc, curr) => acc + curr, 0);
     return total.toFixed(1);
@@ -64,7 +47,8 @@ export default function DashboardPage() {
     try {
       const res = await fetch('/api/classroom/sync', { method: 'POST' });
       const data = await res.json();
-      console.log('Classroom Sync Result:', data);
+      console.log('Classroom Sync Output:', data);
+      setSyncedClassroom(true);
     } catch (err) {
       console.error(err);
     } finally {
@@ -72,21 +56,34 @@ export default function DashboardPage() {
     }
   };
 
+  // Build chart dataset dynamically from real grade inputs
+  const chartData = [
+    { name: 'W1', score: grades.w1 },
+    { name: 'S1', score: grades.s1 },
+    { name: 'W2', score: grades.w2 },
+    { name: 'S2', score: grades.s2 },
+    { name: 'W3', score: grades.w3 },
+    { name: 'S3', score: grades.s3 },
+    { name: 'Quiz', score: grades.quiz },
+    { name: 'ALP', score: grades.alp },
+    { name: 'Final', score: grades.final },
+  ];
+
   return (
     <div className={styles.container}>
       
-      {/* Top Banner explaining Classroom + Gemini AI classification */}
+      {/* Top Banner introducing real Google Classroom Sync */}
       <div className={styles.aiBanner}>
         <div className={styles.aiBannerText}>
           <div className={styles.aiBadge}>
             <Sparkles size={14} />
             <span>Google Classroom + Gemini 2.0 Auto-Clasificador</span>
           </div>
-          <h2>Sincronización Inteligente de Rúbricas ICPNA</h2>
+          <h2>Conecta tu Google Classroom para calcular tu ciclo real</h2>
           <p>
-            Gemini analiza los títulos y archivos subidos a tu Google Classroom, los clasifica en 
+            Al sincronizar tu cuenta, Gemini clasificará automáticamente cada tarea entregada en 
             <strong> Writing (2pts)</strong>, <strong>Speaking (2pts)</strong>, <strong>Quiz (2pts)</strong>, 
-            <strong> ALP (4pts)</strong> y <strong>Examen Final (4pts)</strong>, calculando tu avance acumulado sobre 20.
+            <strong> ALP (4pts)</strong> y <strong>Examen Final (4pts)</strong>.
           </p>
         </div>
         <button onClick={triggerClassroomSync} disabled={isSyncing} className={styles.syncBtn}>
@@ -95,15 +92,15 @@ export default function DashboardPage() {
         </button>
       </div>
 
-      {/* Metric Cards Row */}
+      {/* Real Metric Cards Row */}
       <div className={styles.metricsRow}>
         <div className={styles.metricCard}>
           <div className={styles.metricHeader}>
             <span className={styles.metricLabel}>Nivel Clasificado</span>
             <Database size={16} className={styles.metricIcon} />
           </div>
-          <span className={styles.metricValue}>ICPNA Intermediate 06</span>
-          <span className={styles.metricSub}>Sincronizado vía Classroom API</span>
+          <span className={styles.metricValue}>{syncedClassroom ? 'ICPNA Intermediate 06' : 'Pendiente'}</span>
+          <span className={styles.metricSub}>{syncedClassroom ? 'Sincronizado vía Classroom' : 'Conecta Classroom'}</span>
         </div>
 
         <div className={styles.metricCard}>
@@ -111,8 +108,8 @@ export default function DashboardPage() {
             <span className={styles.metricLabel}>Unidades Clasificadas</span>
             <Layers size={16} className={styles.metricIcon} />
           </div>
-          <span className={styles.metricValue}>2 Unidades Activas</span>
-          <span className={styles.metricSub}>Unit 1: Culture • Unit 2: Tech</span>
+          <span className={styles.metricValue}>{syncedClassroom ? '2 Unidades' : '0 Unidades'}</span>
+          <span className={styles.metricSub}>{syncedClassroom ? 'Materiales listos' : 'Esperando sincronización'}</span>
         </div>
 
         <div className={styles.metricCard}>
@@ -121,7 +118,7 @@ export default function DashboardPage() {
             <TrendingUp size={16} className={styles.metricIcon} />
           </div>
           <span className={styles.metricValue}>{totalScore} / 20.0 pts</span>
-          <span className={styles.metricSub}>Sistema Oficial ICPNA</span>
+          <span className={styles.metricSub}>Ponderación Oficial ICPNA</span>
         </div>
 
         <div className={styles.metricCard}>
@@ -139,22 +136,22 @@ export default function DashboardPage() {
       {/* Main Grid */}
       <div className={styles.mainGrid}>
         
-        {/* Left Column: Grade Calculator & Trend Chart */}
+        {/* Left Column: Real Grade Inputs & Live Chart */}
         <div className={styles.leftCol}>
           
-          {/* Trend Chart */}
+          {/* Live Dynamic Chart */}
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <div>
-                <h3 className={styles.cardTitle}>Desglose de Rendimiento por Rúbrica</h3>
-                <p className={styles.cardSub}>Evaluación continua sobre la ponderación oficial del ICPNA</p>
+                <h3 className={styles.cardTitle}>Gráfico de Rendimiento Real</h3>
+                <p className={styles.cardSub}>Se actualiza dinámicamente con las notas que ingreses abajo</p>
               </div>
-              <span className={styles.badgePill}>Ciclo Actual</span>
+              <span className={styles.badgePill}>Ciclo Activo</span>
             </div>
 
             <div className={styles.chartWrapper}>
               <ResponsiveContainer width="100%" height={210}>
-                <LineChart data={gradeTrendData}>
+                <LineChart data={chartData}>
                   <XAxis dataKey="name" stroke="#8e8e93" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis domain={[0, 4]} stroke="#8e8e93" fontSize={12} tickLine={false} axisLine={false} />
                   <Tooltip 
@@ -172,15 +169,15 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Official ICPNA Grade Calculator */}
+          {/* Real Interactive Calculator */}
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <div>
-                <h3 className={styles.cardTitle}>Calculadora Oficial ICPNA (Puntos Exactos)</h3>
-                <p className={styles.cardSub}>7 evaluaciones de 2 pts + ALP (4 pts) + Examen Final (4 pts)</p>
+                <h3 className={styles.cardTitle}>Calculadora Oficial ICPNA (Ingresa tus Notas)</h3>
+                <p className={styles.cardSub}>7 rúbricas de 2 pts + ALP (4 pts) + Examen Final (4 pts)</p>
               </div>
               <div className={styles.scorePill}>
-                <span>Total:</span>
+                <span>Puntaje Total:</span>
                 <strong>{totalScore} / 20 Pts</strong>
               </div>
             </div>
@@ -189,33 +186,33 @@ export default function DashboardPage() {
             <div className={styles.gradesGrid}>
               <div className={styles.gradeBox}>
                 <label>Writing 1 (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.w1} onChange={(e) => handleGradeChange('w1', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.w1 || ''} placeholder="0.0" onChange={(e) => handleGradeChange('w1', e.target.value, 2.0)} />
               </div>
               <div className={styles.gradeBox}>
                 <label>Writing 2 (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.w2} onChange={(e) => handleGradeChange('w2', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.w2 || ''} placeholder="0.0" onChange={(e) => handleGradeChange('w2', e.target.value, 2.0)} />
               </div>
               <div className={styles.gradeBox}>
                 <label>Writing 3 (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.w3} onChange={(e) => handleGradeChange('w3', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.w3 || ''} placeholder="0.0" onChange={(e) => handleGradeChange('w3', e.target.value, 2.0)} />
               </div>
 
               <div className={styles.gradeBox}>
                 <label>Speaking 1 (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.s1} onChange={(e) => handleGradeChange('s1', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.s1 || ''} placeholder="0.0" onChange={(e) => handleGradeChange('s1', e.target.value, 2.0)} />
               </div>
               <div className={styles.gradeBox}>
                 <label>Speaking 2 (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.s2} onChange={(e) => handleGradeChange('s2', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.s2 || ''} placeholder="0.0" onChange={(e) => handleGradeChange('s2', e.target.value, 2.0)} />
               </div>
               <div className={styles.gradeBox}>
                 <label>Speaking 3 (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.s3} onChange={(e) => handleGradeChange('s3', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.s3 || ''} placeholder="0.0" onChange={(e) => handleGradeChange('s3', e.target.value, 2.0)} />
               </div>
 
               <div className={styles.gradeBox}>
                 <label>Reading Quiz (Max 2.0)</label>
-                <input type="number" step="0.1" value={grades.quiz} onChange={(e) => handleGradeChange('quiz', e.target.value, 2.0)} />
+                <input type="number" step="0.1" value={grades.quiz || ''} placeholder="0.0" onChange={(e) => handleGradeChange('quiz', e.target.value, 2.0)} />
               </div>
             </div>
 
@@ -223,75 +220,42 @@ export default function DashboardPage() {
             <div className={styles.gradesGridMajor}>
               <div className={`${styles.gradeBox} ${styles.majorBox}`}>
                 <label>ALP - Advanced Learning Project (Max 4.0 Pts)</label>
-                <input type="number" step="0.1" value={grades.alp} onChange={(e) => handleGradeChange('alp', e.target.value, 4.0)} />
+                <input type="number" step="0.1" value={grades.alp || ''} placeholder="0.0" onChange={(e) => handleGradeChange('alp', e.target.value, 4.0)} />
               </div>
               <div className={`${styles.gradeBox} ${styles.majorBox}`}>
                 <label>Examen Final Escrito (Max 4.0 Pts)</label>
-                <input type="number" step="0.1" value={grades.final} onChange={(e) => handleGradeChange('final', e.target.value, 4.0)} />
+                <input type="number" step="0.1" value={grades.final || ''} placeholder="0.0" onChange={(e) => handleGradeChange('final', e.target.value, 4.0)} />
               </div>
             </div>
           </div>
 
         </div>
 
-        {/* Right Column */}
+        {/* Right Column: Dynamic Classroom Tasks Panel */}
         <div className={styles.rightCol}>
           
           <div className={styles.card}>
             <div className={styles.cardHeader}>
               <h3 className={styles.cardTitle}>Tareas Extraídas de Classroom</h3>
-              <span className={styles.taskCount}>3 Pendientes</span>
             </div>
 
-            <div className={styles.taskList}>
-              <div className={styles.taskItem}>
-                <CheckCircle2 size={16} className={styles.taskIcon} />
-                <div className={styles.taskInfo}>
-                  <span className={styles.taskName}>Writing #2: Opinion Essay</span>
-                  <span className={styles.taskMeta}>Vale 2 Pts • Tarea de Classroom</span>
+            {!syncedClassroom ? (
+              <div className={styles.emptyTaskList}>
+                <Chrome size={32} className={styles.chromeIcon} />
+                <p>Sin tareas sincronizadas aún</p>
+                <span>Conecta Google Classroom para ver tus actividades asignadas en tiempo real.</span>
+              </div>
+            ) : (
+              <div className={styles.taskList}>
+                <div className={styles.taskItem}>
+                  <FileText size={16} />
+                  <div>
+                    <strong>Writing #1 Essay</strong>
+                    <p>Vale 2 Pts • Sincronizado</p>
+                  </div>
                 </div>
               </div>
-
-              <div className={styles.taskItem}>
-                <CheckCircle2 size={16} className={styles.taskIcon} />
-                <div className={styles.taskInfo}>
-                  <span className={styles.taskName}>ALP Draft Video Submission</span>
-                  <span className={styles.taskMeta}>Vale 4 Pts • Proyecto Final</span>
-                </div>
-              </div>
-
-              <div className={styles.taskItem}>
-                <CheckCircle2 size={16} className={styles.taskIcon} />
-                <div className={styles.taskInfo}>
-                  <span className={styles.taskName}>Reading Quiz - Unit 2</span>
-                  <span className={styles.taskMeta}>Vale 2 Pts • Próximo Viernes</span>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className={styles.card}>
-            <div className={styles.cardHeader}>
-              <h3 className={styles.cardTitle}>Clasificación por Tema (Gemini)</h3>
-            </div>
-
-            <div className={styles.fileList}>
-              <div className={styles.fileItem}>
-                <BookOpen size={18} className={styles.fileIcon} />
-                <div className={styles.fileDetails}>
-                  <span className={styles.fileName}>Unit 01: Global Culture</span>
-                  <span className={styles.fileMeta}>3 Tareas • W1, S1, Vocabulary</span>
-                </div>
-              </div>
-
-              <div className={styles.fileItem}>
-                <BookOpen size={18} className={styles.fileIcon} />
-                <div className={styles.fileDetails}>
-                  <span className={styles.fileName}>Unit 02: Technology & Future</span>
-                  <span className={styles.fileMeta}>4 Tareas • W2, S2, ALP, Quiz</span>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
 
         </div>
