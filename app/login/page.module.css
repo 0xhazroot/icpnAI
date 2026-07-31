@@ -1,159 +1,272 @@
-.wrapper {
-  min-height: 100vh;
-  background: #f5f5f7;
+.fullscreenContainer {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 24px;
-}
-
-.container {
-  width: 100%;
-  max-width: 1100px;
-  background: #ffffff;
-  border: 1px solid #e5e5ea;
-  border-radius: 24px;
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
   overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.06);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background: #000000;
+  box-sizing: border-box;
 }
 
-@media (max-width: 900px) {
-  .container {
-    grid-template-columns: 1fr;
-  }
-}
-
+/* LEFT FULLSCREEN HERO PANEL (58% Width, 100vh Height) */
 .leftPanel {
+  width: 58%;
+  height: 100vh;
   background: #000000;
   color: #ffffff;
-  padding: 48px;
+  padding: 48px 56px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 32px;
+  box-sizing: border-box;
+  position: relative;
+  border-right: 1px solid #1c1c1e;
 }
 
-.brandHeader {
+@media (max-width: 1024px) {
+  .fullscreenContainer {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+    overflow-y: auto;
+  }
+  .leftPanel, .rightPanel {
+    width: 100%;
+    height: auto;
+    padding: 36px 24px;
+  }
+}
+
+.brandNavbar {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
 }
 
-.logoBadge {
-  width: 36px;
-  height: 36px;
-  border-radius: 10px;
+.brandLogoBox {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
   background: #1c1c1e;
   border: 1px solid #2c2c2e;
   display: flex;
   align-items: center;
   justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.brandTextGroup {
+  display: flex;
+  flex-direction: column;
 }
 
 .brandTitle {
   font-size: 1.35rem;
-  font-weight: 700;
-  font-family: 'JetBrains Mono', monospace;
-}
-
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.kicker {
-  font-size: 0.78rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #8e8e93;
-}
-
-.heroTitle {
-  font-size: 2.1rem;
-  font-weight: 700;
-  line-height: 1.2;
+  font-weight: 800;
   letter-spacing: -0.03em;
+  font-family: 'JetBrains Mono', monospace, sans-serif;
 }
 
-.heroTitle strong {
-  color: #ffffff;
-  border-bottom: 2px solid #ffffff;
+.brandTag {
+  font-size: 0.74rem;
+  color: #8e8e93;
+  font-weight: 500;
 }
 
-.heroSub {
-  font-size: 0.92rem;
-  color: #aeaeb2;
-  line-height: 1.6;
-}
-
-.featureList {
+.heroBody {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-top: 12px;
+  gap: 20px;
+  max-width: 620px;
+  margin: auto 0;
 }
 
-.featureItem {
+.badgeCapsule {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #1c1c1e;
+  color: #ffffff;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  width: fit-content;
+  border: 1px solid #2c2c2e;
+}
+
+.zapIcon {
+  color: #ffffff;
+}
+
+.mainHeading {
+  font-size: 2.5rem;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+}
+
+.mainHeading strong {
+  background: linear-gradient(180deg, #ffffff 0%, #8e8e93 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.leadParagraph {
+  font-size: 0.95rem;
+  color: #aeaeb2;
+  line-height: 1.55;
+  max-width: 560px;
+}
+
+.featureGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  margin-top: 10px;
+}
+
+@media (max-width: 900px) {
+  .featureGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.featureCard {
+  background: #0d0d0e;
+  border: 1px solid #1c1c1e;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.featureCard:hover {
+  transform: translateY(-2px);
+  border-color: #3a3a3c;
+}
+
+.featureCardHeader {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 0.85rem;
-  color: #e5e5ea;
+  gap: 8px;
 }
 
-.featureIcon {
+.featureCardHeader span {
+  font-size: 0.82rem;
+  font-weight: 700;
   color: #ffffff;
-  flex-shrink: 0;
 }
 
-.footerNotice {
+.iconCircle {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: #1c1c1e;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.featureCard p {
+  font-size: 0.74rem;
+  color: #8e8e93;
+  line-height: 1.4;
+}
+
+.leftFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #1c1c1e;
+  padding-top: 20px;
+}
+
+.liveMetric {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.78rem;
+  font-weight: 600;
+  color: #24a148;
+}
+
+.greenPulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #24a148;
+  box-shadow: 0 0 10px rgba(36, 161, 72, 0.6);
+}
+
+.footerText {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
   color: #8e8e93;
 }
 
+/* RIGHT FULLSCREEN LOGIN FORM PANEL (42% Width, 100vh Height) */
 .rightPanel {
-  padding: 48px;
+  width: 42%;
+  height: 100vh;
+  background: #f5f5f7;
+  padding: 40px 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #ffffff;
+  box-sizing: border-box;
 }
 
-.loginCard {
+.loginFormBox {
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 28px;
 }
 
-.cardHeader h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  color: #1c1c1e;
-  letter-spacing: -0.02em;
+.formHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
-.cardHeader p {
+.portalLabel {
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  color: #6e6e73;
+  text-transform: uppercase;
+}
+
+.formHeader h2 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: #1c1c1e;
+  letter-spacing: -0.03em;
+}
+
+.formHeader p {
   font-size: 0.85rem;
   color: #6e6e73;
-  margin-top: 6px;
-  line-height: 1.4;
+  line-height: 1.45;
 }
 
-.oauthSection {
+.actionContainer {
   display: flex;
   flex-direction: column;
 }
 
-.googleBtn {
+.primaryGoogleBtn {
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -161,41 +274,100 @@
   color: #ffffff;
   border: none;
   padding: 16px 20px;
-  border-radius: 14px;
+  border-radius: 16px;
+  cursor: pointer;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.primaryGoogleBtn:hover {
+  transform: translateY(-2px);
+  background: #1c1c1e;
+}
+
+.googleBtnLeft {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.chromeIconWrapper {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.btnTextGroup {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.btnMainText {
   font-size: 0.92rem;
   font-weight: 700;
-  cursor: pointer;
-  transition: transform 0.2s ease, opacity 0.2s ease;
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-.googleBtn:hover {
-  transform: translateY(-2px);
-  opacity: 0.95;
-}
-
-.googleIcon {
   color: #ffffff;
+}
+
+.btnSubText {
+  font-size: 0.72rem;
+  color: #aeaeb2;
 }
 
 .arrowIcon {
   color: #8e8e93;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
-.securityBadge {
+.arrowAnimated {
+  transform: translateX(4px);
+  color: #ffffff;
+}
+
+.securityBox {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  background: #f9f9fb;
+  flex-direction: column;
+  gap: 12px;
+  background: #ffffff;
   border: 1px solid #e5e5ea;
-  padding: 12px 14px;
-  border-radius: 12px;
-  font-size: 0.78rem;
-  color: #6e6e73;
-  line-height: 1.4;
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.02);
 }
 
-.shieldIcon {
+.securityItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.securityItem strong {
+  font-size: 0.8rem;
+  color: #1c1c1e;
+  display: block;
+}
+
+.securityItem p {
+  font-size: 0.74rem;
+  color: #6e6e73;
+  margin-top: 2px;
+  line-height: 1.35;
+}
+
+.shieldIcon, .globeIcon {
   color: #1c1c1e;
   flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.copyrightText {
+  font-size: 0.74rem;
+  color: #aeaeb2;
+  text-align: center;
 }
