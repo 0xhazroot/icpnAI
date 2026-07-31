@@ -4,6 +4,87 @@
   gap: 24px;
 }
 
+.aiBanner {
+  background: #000000;
+  color: #ffffff;
+  border-radius: 18px;
+  padding: 24px 28px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+@media (max-width: 900px) {
+  .aiBanner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.aiBannerText {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 750px;
+}
+
+.aiBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #1c1c1e;
+  color: #ffffff;
+  padding: 4px 12px;
+  border-radius: 9999px;
+  font-size: 0.76rem;
+  font-weight: 600;
+  width: fit-content;
+  border: 1px solid #2c2c2e;
+}
+
+.aiBannerText h2 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.aiBannerText p {
+  font-size: 0.84rem;
+  color: #aeaeb2;
+  line-height: 1.5;
+}
+
+.syncBtn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #ffffff;
+  color: #000000;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.syncBtn:hover {
+  transform: translateY(-2px);
+  opacity: 0.95;
+}
+
+.spinIcon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  100% { transform: rotate(360deg); }
+}
+
 .metricsRow {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -138,9 +219,24 @@
   margin-top: 10px;
 }
 
+.gradesSectionTitle {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #1c1c1e;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
 .gradesGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.gradesGridMajor {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 12px;
 }
 
@@ -148,6 +244,13 @@
   display: flex;
   flex-direction: column;
   gap: 6px;
+}
+
+.majorBox {
+  background: #f9f9fb;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e5e5ea;
 }
 
 .gradeBox label {
@@ -166,6 +269,10 @@
   color: #1c1c1e;
   text-align: center;
   outline: none;
+}
+
+.majorBox input {
+  background: #ffffff;
 }
 
 .gradeBox input:focus {
