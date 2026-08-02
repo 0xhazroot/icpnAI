@@ -35,7 +35,8 @@ export default function JarvisPage() {
       if (data.reply) {
         setMessages(prev => [...prev, { role: 'assistant', content: data.reply }]);
       } else {
-        setMessages(prev => [...prev, { role: 'assistant', content: 'Sorry, I encountered an issue. Let us try again!' }]);
+        const errMsg = data.error || 'Error desconocido al conectar con Gemini.';
+        setMessages(prev => [...prev, { role: 'assistant', content: `⚠️ ${errMsg}` }]);
       }
     } catch (err) {
       console.error(err);
@@ -91,7 +92,7 @@ export default function JarvisPage() {
             placeholder="Pregúntale a JARVIS sobre rúbricas, vocabulario, corrección de ensayos..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+            onKeyDown={(e) => e.key === 'Enter' && handleSend()}
             className={styles.input}
           />
           <button onClick={handleSend} disabled={loading} className={styles.sendBtn}>

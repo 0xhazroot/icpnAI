@@ -25,10 +25,15 @@ export default function Header() {
   ]);
 
   useEffect(() => {
-    // Check if Google URL parameters present or auth token saved
     if (typeof window !== 'undefined') {
       const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('status') === 'google_connected' || localStorage.getItem('google_classroom_token')) {
+      // If redirected back from OAuth with success status, persist it
+      if (urlParams.get('status') === 'google_connected') {
+        localStorage.setItem('google_classroom_connected', 'true');
+        setIsConnected(true);
+        // Clean URL params without reload
+        window.history.replaceState({}, '', window.location.pathname);
+      } else if (localStorage.getItem('google_classroom_connected') === 'true') {
         setIsConnected(true);
       }
     }

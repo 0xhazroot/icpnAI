@@ -100,7 +100,7 @@ export default function VaultPage() {
             placeholder="Buscar por gramática, vocabulario o ciclo (ej. Intermediate 05)..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            onKeyPress={(e) => e.key === 'Enter' && runHistoricalSearch()}
+            onKeyDown={(e) => e.key === 'Enter' && runHistoricalSearch()}
             className={styles.searchInput}
           />
         </div>

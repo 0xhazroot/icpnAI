@@ -100,9 +100,10 @@ export default function NotebookPage() {
       });
 
       const data = await res.json();
-      setChatMessages(prev => [...prev, { role: 'assistant', content: data.reply || 'Sin respuesta' }]);
+      const reply = data.reply || data.error || 'Sin respuesta del servidor.';
+      setChatMessages(prev => [...prev, { role: 'assistant', content: reply }]);
     } catch (err) {
-      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Error al procesar la consulta.' }]);
+      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Error de conexión con el servidor.' }]);
     } finally {
       setLoadingAction('');
     }
@@ -190,7 +191,7 @@ export default function NotebookPage() {
               <Sparkles size={18} />
               <h3 className={styles.cardTitle}>Asistente Interactivo de Estudio</h3>
             </div>
-            <span className={styles.modelTag}>Gemini 1.5 Flash</span>
+            <span className={styles.modelTag}>Gemini 2.0 Flash</span>
           </div>
 
           <div className={styles.actionButtonsRow}>
@@ -254,7 +255,7 @@ export default function NotebookPage() {
                 placeholder={activeSource ? `Preguntar sobre ${activeSource.name}...` : 'Sube un PDF para chatear con él...'}
                 value={chatInput}
                 onChange={(e) => setChatInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && handleDocChat()}
+                onKeyDown={(e) => e.key === 'Enter' && handleDocChat()}
                 className={styles.chatInput}
               />
               <button onClick={handleDocChat} className={styles.chatSendBtn}>

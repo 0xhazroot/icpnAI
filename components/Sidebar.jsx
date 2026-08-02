@@ -27,6 +27,7 @@ export default function Sidebar() {
   const handleLogout = () => {
     if (typeof window !== 'undefined') {
       localStorage.removeItem('google_classroom_token');
+      localStorage.removeItem('google_classroom_connected');
     }
     router.push('/login');
   };

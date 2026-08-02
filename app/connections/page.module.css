@@ -135,3 +135,27 @@
 .btnPrimary:hover {
   opacity: 0.85;
 }
+
+.errorBanner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  background: #fff2f0;
+  border: 1px solid #ffccc7;
+  border-radius: 14px;
+  padding: 16px 20px;
+  color: #cf1322;
+  max-width: 650px;
+}
+
+.errorBanner strong {
+  font-size: 0.86rem;
+  display: block;
+}
+
+.errorBanner p {
+  font-size: 0.82rem;
+  color: #a8071a;
+  line-height: 1.4;
+  margin-top: 4px;
+}

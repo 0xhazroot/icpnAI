@@ -1,21 +1,22 @@
 import { GoogleGenerativeAI } from '@google/generative-ai';
 import { NextResponse } from 'next/server';
 
+const MODEL_PRIMARY = 'gemini-2.0-flash';
+
 export async function POST(req) {
   const timestamp = new Date().toISOString();
-  console.log(`[${timestamp}] [Gemini Summarize API] Request received`);
+  console.log(`[${timestamp}] [Summarize API] Request received`);
 
   try {
     const { action, text, fileName } = await req.json();
 
     const apiKey = process.env.GEMINI_API_KEY;
     if (!apiKey) {
-      console.error(`[${timestamp}] [Gemini Summarize API] Missing GEMINI_API_KEY`);
-      return NextResponse.json({ error: 'Falta la GEMINI_API_KEY en .env.local' }, { status: 500 });
+      return NextResponse.json({ error: 'GEMINI_API_KEY no configurada en .env.local' }, { status: 500 });
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    const model = genAI.getGenerativeModel({ model: MODEL_PRIMARY });
 
     let prompt = '';
 
@@ -43,19 +44,26 @@ ${text || 'ICPNA Unit Material'}`;
       prompt = `Summarize this ICPNA document: ${text}`;
     }
 
-    console.log(`[${timestamp}] [Gemini Summarize API] Executing action: ${action}`);
+    console.log(`[${timestamp}] [Summarize API] Action: ${action}, Model: ${MODEL_PRIMARY}`);
     const result = await model.generateContent(prompt);
-    const response = await result.response;
-    const resultText = response.text();
+    const resultText = result.response.text();
 
-    return NextResponse.json({ 
-      result: resultText,
-      action,
-      timestamp
-    });
+    return NextResponse.json({ result: resultText, action, timestamp });
 
   } catch (error) {
-    console.error(`[${timestamp}] [Gemini Summarize API] Error:`, error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    console.error(`[${timestamp}] [Summarize API] Error:`, error.message?.substring(0, 200));
+    
+    const errMsg = error.message || '';
+    let userError;
+
+    if (errMsg.includes('429') || errMsg.includes('credits') || errMsg.includes('quota')) {
+      userError = 'Créditos de API agotados. Genera una nueva API Key gratuita en aistudio.google.com';
+    } else if (errMsg.includes('404') || errMsg.includes('not found')) {
+      userError = 'Modelo de Gemini no disponible. Contacta al desarrollador.';
+    } else {
+      userError = errMsg || 'Error desconocido al conectar con Gemini';
+    }
+
+    return NextResponse.json({ error: userError }, { status: 500 });
   }
 }

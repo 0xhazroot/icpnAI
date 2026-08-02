@@ -1,22 +1,39 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-import { Chrome, CheckCircle2, ShieldCheck, RefreshCw, AlertCircle } from 'lucide-react';
+import { Chrome, CheckCircle2, ShieldCheck, RefreshCw, AlertCircle, AlertTriangle } from 'lucide-react';
+import { useSearchParams } from 'next/navigation';
 import styles from './page.module.css';
 
 export default function ConnectionsPage() {
   const [isConnected, setIsConnected] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.get('status') === 'google_connected' || localStorage.getItem('google_classroom_token')) {
+      // Check for OAuth error from redirect
+      const error = searchParams.get('error');
+      if (error) {
+        const errorMessages = {
+          'admin_policy_enforced': 'Tu cuenta institucional (@icpna.edu.pe) tiene una política de seguridad que bloquea apps no verificadas. Usa tu cuenta personal @gmail.com.',
+          'access_denied': 'Denegaste el acceso a Google Classroom. Intenta nuevamente.',
+          'no_code': 'No se recibió código de autorización de Google.',
+          'missing_credentials': 'Faltan credenciales de Google Cloud en el servidor (.env.local).',
+          'server_error': 'Error interno del servidor al procesar la autenticación.',
+        };
+        setErrorMsg(errorMessages[error] || `Error de autenticación: ${error}`);
+      }
+
+      // Check persistent connection state
+      if (localStorage.getItem('google_classroom_connected') === 'true') {
         setIsConnected(true);
       }
     }
-  }, []);
+  }, [searchParams]);
 
   const handleGoogleAuth = () => {
+    setErrorMsg('');
     const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || '751539910196-rb7cen7rinfmo7ihcn34k41hg7a2v62r.apps.googleusercontent.com';
     const redirectUri = encodeURIComponent('http://localhost:3000/api/auth/callback/google');
     const scope = encodeURIComponent('https://www.googleapis.com/auth/classroom.courses.readonly https://www.googleapis.com/auth/classroom.courseworkmaterials.readonly https://www.googleapis.com/auth/userinfo.email');
@@ -31,8 +48,18 @@ export default function ConnectionsPage() {
         <p className={styles.subtitle}>Vincula tu cuenta institucional de Google Classroom de forma segura mediante OAuth 2.0</p>
       </div>
 
+      {/* Error Alert Banner */}
+      {errorMsg && (
+        <div className={styles.errorBanner}>
+          <AlertTriangle size={18} />
+          <div>
+            <strong>Error de Autenticación</strong>
+            <p>{errorMsg}</p>
+          </div>
+        </div>
+      )}
+
       <div className={styles.singleCardWrapper}>
-        {/* Google & Google Classroom Card strictly */}
         <div className={styles.card}>
           <div className={styles.cardTop}>
             <div className={styles.iconBox}>
